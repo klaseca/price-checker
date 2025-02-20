@@ -1,0 +1,36 @@
+{
+  "name": "backend",
+  "author": "Maxim Molochkov <klaseca@gmail.com> (https://github.com/klaseca)",
+  "license": "AGPL-3.0-only",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "dev": "node --env-file ./.env --watch-path ./src --import ./esmRegister.js ./src/index.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fastify/cors": "9.0.1",
+    "@fastify/deepmerge": "2.0.2",
+    "@sinclair/typebox": "0.32.33",
+    "better-sqlite3": "11.8.1",
+    "camelcase": "8.0.0",
+    "cron": "3.1.7",
+    "dbmate": "2.25.0",
+    "decamelize": "6.0.0",
+    "fastify": "4.29.0",
+    "fetch-cookie": "3.1.0",
+    "grammy": "1.24.0",
+    "linkedom": "0.18.9",
+    "sql-template-tag": "5.2.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "7.6.12",
+    "@types/node": "20.12.7",
+    "pino-pretty": "11.2.1",
+    "ts-node": "10.9.2"
+  },
+  "imports": {
+    "#*": "./src/*"
+  }
+}
