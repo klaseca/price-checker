@@ -3,6 +3,7 @@
   "include": ["./src"],
   "exclude": ["./src/frontendTypes"],
   "compilerOptions": {
+    "rootDir": "./src",
     "outDir": "./dist"
   }
 }

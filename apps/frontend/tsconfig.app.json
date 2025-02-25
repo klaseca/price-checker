@@ -8,7 +8,7 @@
     "baseUrl": ".",
     "paths": {
       "#*": ["./src/*"],
-      "#shared-types/*": ["../backend/src/frontendTypes/*.d.ts"]
+      "#shared-types/*": ["../../node_modules/backend/src/frontendTypes/*.d.ts"]
     }
   },
   "vueCompilerOptions": {

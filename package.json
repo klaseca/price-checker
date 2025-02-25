@@ -12,6 +12,9 @@
     "type-check:frontend": "npm run type-check -w frontend",
     "type-check:backend": "npm run type-check -w backend",
     "type-check": "tinyrun \"npm run type-check:backend\" \"npm run type-check:frontend\"",
+    "build:frontend": "npm run build -w frontend",
+    "build:backend": "npm run build -w backend",
+    "build": "tinyrun \"npm run build:backend\" \"npm run build:frontend\"",
     "format": "prettier . -w -u"
   },
   "devDependencies": {

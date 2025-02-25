@@ -5,6 +5,7 @@ import { restoreProductJobsUseCase } from '#modules/product/index.js';
 import { telegramBot } from '#shared/infrastructure/telegram/telegramBot.js';
 import { apiV1 } from '#shared/infrastructure/http/api/v1.js';
 import { telegramApiPathname, telegramApi } from './api/telegram.js';
+import fastifyStatic from '@fastify/static';
 
 const loggerConfigFromEnv: Record<string, FastifyServerOptions['logger']> = {
   development: {
@@ -23,6 +24,10 @@ const app = fastify({
 export const logger = app.log;
 
 app.register(cors);
+app.register(fastifyStatic, {
+  root: new URL('./public', import.meta.url),
+  allowedPath: (pathName) => !pathName.startsWith('/api'),
+});
 app.register(apiV1, { prefix: '/api/v1' });
 app.register(telegramApi);
 
