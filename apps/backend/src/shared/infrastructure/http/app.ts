@@ -23,10 +23,18 @@ const app = fastify({
 
 export const logger = app.log;
 
+app.setNotFoundHandler({
+  // @ts-expect-error: Incorrect types
+  preHandler: async (request, reply) => {
+    if (!request.url.startsWith('/api/')) {
+      return reply.sendFile('index.html');
+    }
+  },
+});
 app.register(cors);
 app.register(fastifyStatic, {
   root: new URL('./public', import.meta.url),
-  allowedPath: (pathName) => !pathName.startsWith('/api'),
+  allowedPath: (pathName) => !pathName.startsWith('/api/'),
 });
 app.register(apiV1, { prefix: '/api/v1' });
 app.register(telegramApi);
