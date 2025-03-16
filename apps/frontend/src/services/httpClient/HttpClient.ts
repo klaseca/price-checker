@@ -74,4 +74,4 @@ export class HttpClientImpl implements HttpClient {
   };
 }
 
-export const httpClient = new HttpClientImpl(import.meta.env.VITE_BACKEND_URL);
+export const httpClient = new HttpClientImpl(import.meta.env.VITE_BACKEND_URL ?? '');
