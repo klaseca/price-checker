@@ -13,6 +13,8 @@ const classes = useCssModule();
   <div :class="classes.card">
     <div :class="classes.cardBody">
       <DataList>
+        <DataListItem label="Name" :value="product.name" />
+
         <DataListItem label="URL">
           <a :href="product.url" target="_blank">{{ product.url }}</a>
         </DataListItem>

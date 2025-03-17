@@ -34,6 +34,13 @@ watch(
     >
       <div :class="classes.content">
         <FormInput
+          label="Name"
+          name="name"
+          v-model="product.name"
+          is-required
+        />
+
+        <FormInput
           label="URL"
           name="url"
           v-model="product.url"
