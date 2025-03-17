@@ -16,6 +16,7 @@ export class ApiKeyService {
 
   authorize = (apiKey: string): void => {
     this.storage.setItem(this.storageKey, apiKey);
+    this.apiKey = apiKey;
   };
 
   unauthorize = (): void => {
