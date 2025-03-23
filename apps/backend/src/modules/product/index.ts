@@ -1,5 +1,6 @@
 import { AliexpressParser } from '#parsers/AliexpressParser.js';
 import { OzonParser } from '#parsers/OzonParser.js';
+import { JoomParser } from '#parsers/JoomParser.js';
 import { pushToProductHistoryUseCase } from '#modules/productHistory/index.js';
 import { productDao } from './dao/index.js';
 import { JobManagerServiceImpl } from './services/jobManager/JobManagerService.js';
@@ -18,6 +19,7 @@ const parserService = new ParserServiceImpl({
   parsersSetup: [
     ['www.ozon.ru', OzonParser],
     ['aliexpress.ru', AliexpressParser],
+    ['www.joom.ru', JoomParser],
   ] as const,
   jobManagerService,
   pushToProductHistoryUseCase,
