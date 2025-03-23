@@ -1,31 +1,6 @@
 import { HttpParser } from './HttpParser.js';
 import type { ProductParsedInfo } from './parserTypes.js';
-
-class ValidationError extends Error {
-  override name = this.constructor.name;
-}
-
-const validators = {
-  number: (value: unknown, errorMessage?: string) => {
-    if (typeof value === 'number') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      const replacedValue = value.replace(/^\D+|\s/g, '').replaceAll(',', '.');
-
-      const maybeNumber = Number.parseFloat(replacedValue);
-
-      if (!Number.isNaN(maybeNumber)) {
-        return maybeNumber;
-      }
-    }
-
-    throw new ValidationError(
-      errorMessage ?? `Значение "${JSON.stringify(value)}" не является числом`,
-    );
-  },
-};
+import { validator } from './validation/validator.js';
 
 export class JoomParser extends HttpParser {
   constructor(url: string) {
@@ -62,6 +37,6 @@ export class JoomParser extends HttpParser {
       '[class*="pricesRow"] [class*="priceWrap"] > span:nth-child(1)',
     )?.[0]?.innerText;
 
-    return validators.number(price);
+    return validator.price(price);
   };
 }

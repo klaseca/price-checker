@@ -1,31 +1,6 @@
 import { HttpParser } from './HttpParser.js';
 import type { ProductParsedInfo } from './parserTypes.js';
-
-class ValidationError extends Error {
-  override name = this.constructor.name;
-}
-
-const validators = {
-  number: (value: unknown, errorMessage?: string) => {
-    if (typeof value === 'number') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      const replacedValue = value.replace(/^\D+|\s/g, '').replaceAll(',', '.');
-
-      const maybeNumber = Number.parseFloat(replacedValue);
-
-      if (!Number.isNaN(maybeNumber)) {
-        return maybeNumber;
-      }
-    }
-
-    throw new ValidationError(
-      errorMessage ?? `Значение "${JSON.stringify(value)}" не является числом`,
-    );
-  },
-};
+import { validator } from './validation/validator.js';
 
 export class AliexpressParser extends HttpParser {
   constructor(url: string) {
@@ -52,15 +27,17 @@ export class AliexpressParser extends HttpParser {
 
     const document = HttpParser.htmlStringToDocument(htmlString);
 
-    const price = validators.number(
-      document.querySelector<HTMLElement>(
-        '[class*="MainLayout__root"] [class*="HazeProductPrice_SnowPrice__mainS"]',
-      )?.innerText,
-    );
-
     return {
-      price,
+      price: AliexpressParser.getPrice(document),
       checkedAt: new Date().toISOString(),
     };
+  };
+
+  private static getPrice = (document: Document): number => {
+    const price = document.querySelector<HTMLElement>(
+      '[class*="MainLayout__root"] [class*="HazeProductPrice_SnowPrice__mainS"]',
+    )?.innerText;
+
+    return validator.price(price);
   };
 }

@@ -1,33 +1,6 @@
 import { HttpParser } from './HttpParser.js';
 import type { ProductParsedInfo } from './parserTypes.js';
-
-class ValidationError extends Error {
-  override name = this.constructor.name;
-}
-
-const validators = {
-  price: (value: unknown) => {
-    if (typeof value === 'number') {
-      return value;
-    }
-
-    if (typeof value === 'string') {
-      const replacedValue = value.replace(/^\D+|\s/g, '').replaceAll(',', '.');
-
-      const maybeNumber = Number.parseFloat(replacedValue);
-
-      if (!Number.isNaN(maybeNumber)) {
-        return maybeNumber;
-      }
-    }
-
-    throw new ValidationError(
-      `Не удалось распарсить цену товара. Значение "${JSON.stringify(
-        value,
-      )}" не является числом`,
-    );
-  },
-};
+import { validator } from './validation/validator.js';
 
 const PRICE_PROPERTIES = ['cardPrice', 'price', 'originalPrice'] as const;
 
@@ -56,10 +29,8 @@ export class OzonParser extends HttpParser {
 
     const document = HttpParser.htmlStringToDocument(htmlString);
 
-    const price = OzonParser.getPrice(document);
-
     return {
-      price,
+      price: OzonParser.getPrice(document),
       checkedAt: new Date().toISOString(),
     };
   };
@@ -71,7 +42,7 @@ export class OzonParser extends HttpParser {
       '[id^=state-webPrice-]',
     )?.dataset['state'];
 
-    const state: unknown = stateData ? JSON.parse(stateData) : undefined;
+    const state: unknown = stateData != null ? JSON.parse(stateData) : null;
 
     if (typeof state === 'object' && state !== null) {
       for (const priceProperty of PRICE_PROPERTIES) {
@@ -85,6 +56,6 @@ export class OzonParser extends HttpParser {
       }
     }
 
-    return validators.price(price);
+    return validator.price(price);
   };
 }
