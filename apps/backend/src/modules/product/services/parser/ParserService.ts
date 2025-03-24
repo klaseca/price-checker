@@ -54,6 +54,8 @@ export class ParserServiceImpl implements ParserService {
 
     await this.pushToProductHistoryUseCase.execute({
       ...productInfo,
+      name: product.name,
+      url: product.url,
       productId: product.id,
     });
 
@@ -73,6 +75,8 @@ export class ParserServiceImpl implements ParserService {
 
           await this.pushToProductHistoryUseCase.execute({
             ...productInfo,
+            name: product.name,
+            url: product.url,
             productId: product.id,
           });
         } catch (error) {

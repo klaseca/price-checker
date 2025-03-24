@@ -5,9 +5,9 @@ export interface ParserConstructor {
   new (url: string): Parser;
 }
 
-type RunParserParams = Pick<ProductResponseDto, 'id' | 'url'>;
+type RunParserParams = Pick<ProductResponseDto, 'id' | 'url' | 'name'>;
 
-type StartJobParams = Pick<ProductResponseDto, 'id' | 'cron' | 'url'>;
+type StartJobParams = Pick<ProductResponseDto, 'id' | 'cron' | 'url' | 'name'>;
 
 export interface ParserService {
   runParser: (product: RunParserParams) => Promise<ProductParsedInfo>;

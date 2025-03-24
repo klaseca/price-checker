@@ -42,6 +42,7 @@ export class RunProductParserController implements Controller {
     const parseProductInfo = await this.parserService.runParser({
       id: product.id,
       url: product.url,
+      name: product.name,
     });
 
     return reply.send(parseProductInfo);

@@ -5,9 +5,6 @@ const productIdSchema = Type.Object({
 });
 
 export const productHistoryResponseDtoSchema = Type.Object({
-  name: Type.String(),
-  url: Type.String(),
-  productId: Type.Number(),
   price: Type.Number(),
   checkedAt: Type.String(),
 });

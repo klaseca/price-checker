@@ -10,7 +10,7 @@ export class ProductHistoryDaoImpl implements ProductHistoryDao {
   }
 
   private getProductHistoryQuery = (id: number) => sql`
-    select p.name, p.url, ph.product_id, ph.checked_at, ph.price from product as p join product_history as ph on p.id = ph.product_id where p.id=${id}
+    select checked_at, price from product_history where product_id = ${id}
   `;
 
   getList: ProductHistoryDao['getList'] = async (id) => {

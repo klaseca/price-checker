@@ -22,14 +22,23 @@ export class PushToProductHistoryUseCaseImpl
     this.notificationService = notificationService;
   }
 
-  execute: PushToProductHistoryUseCase['execute'] = async (
-    productParsedInfo,
-  ) => {
-    const productHistoryDto =
-      await this.productHistoryDao.pushToProductHistory(productParsedInfo);
+  execute: PushToProductHistoryUseCase['execute'] = async ({
+    name,
+    url,
+    checkedAt,
+    price,
+    productId,
+  }) => {
+    const productHistoryDto = await this.productHistoryDao.pushToProductHistory(
+      { checkedAt, price, productId },
+    );
 
     if (productHistoryDto != null) {
-      await this.notificationService.priceDown(productHistoryDto);
+      await this.notificationService.priceDown({
+        ...productHistoryDto,
+        name,
+        url,
+      });
     }
   };
 }
