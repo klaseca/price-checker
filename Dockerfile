@@ -24,7 +24,8 @@ FROM ${IMAGE}
 
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
-ENV DATABASE_URL=sqlite:db/app.db
+ENV DB_PATH=db/app.db
+ENV DATABASE_URL=sqlite:${DB_PATH}
 ENV DBMATE_MIGRATIONS_DIR=./migrations
 
 ARG WORKDIR
@@ -36,6 +37,8 @@ RUN --mount=type=cache,target=/root/.npm \
   --mount=type=bind,source=package.json,target=package.json \
   --mount=type=bind,source=apps/backend/package.json,target=apps/backend/package.json \
   npm ci --omit=dev -w apps/backend
+
+RUN mkdir -p "$(dirname "$DB_PATH")"
 
 COPY apps/backend ./
 COPY --from=builder ${WORKDIR}/apps/backend/dist ./src/
