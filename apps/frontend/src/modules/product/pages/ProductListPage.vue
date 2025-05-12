@@ -23,7 +23,7 @@ const { data, isLoading, error } = useQuery({ fn: productHttpClient.getList });
         <ul :class="classes.list">
           <li v-for="item of list" :key="item.id">
             <RouterLink :class="classes.listItem" :to="`/product/${item.id}`">
-              {{ item.url }}
+              {{ item.name }}
             </RouterLink>
           </li>
         </ul>

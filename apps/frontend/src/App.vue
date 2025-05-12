@@ -1,16 +1,26 @@
 <script setup lang="ts">
-import { apiKeyService } from '#modules/identity/services/ApiKeyService';
+import { apiKeyContext } from '#modules/identity/contexts/apiKeyContext';
+import { ApiKeyService } from '#modules/identity/services/ApiKeyService';
 import { httpClient } from '#services/httpClient/HttpClient';
 import { useCssModule } from 'vue';
 import { RouterView, useRouter } from 'vue-router';
 
 const classes = useCssModule();
 
+const apiKeyService = new ApiKeyService(
+  localStorage,
+  (apiKey) => (httpClient.apiKey = apiKey),
+);
+
+apiKeyContext.provide(apiKeyService);
+
 const router = useRouter();
 
-if (apiKeyService.apiKey != null) {
-  httpClient.apiKey = apiKeyService.apiKey;
-}
+router.beforeEach(async (to) => {
+  if (!apiKeyService.isAuthorized && to.path !== '/identity') {
+    return { path: '/identity' };
+  }
+});
 
 httpClient.onUnauthorized = () => {
   apiKeyService.unauthorize();

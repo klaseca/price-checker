@@ -3,7 +3,6 @@ import { ProductListPage } from '#modules/product/pages/ProductListPage.vue';
 import { ProductViewPage } from '#modules/product/pages/ProductViewPage.vue';
 import { ProductCreatePage } from '#modules/product/pages/ProductCreatePage.vue';
 import { ApiKeyPage } from '#modules/identity/pages/ApiKeyPage.vue';
-import { apiKeyService } from '#modules/identity/services/ApiKeyService';
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,10 +31,4 @@ export const router = createRouter({
       }),
     },
   ],
-});
-
-router.beforeEach(async (to) => {
-  if (!apiKeyService.isAuthorized && to.path !== '/identity') {
-    return { path: '/identity' };
-  }
 });

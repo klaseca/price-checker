@@ -7,7 +7,7 @@ interface RequestOptions extends RequestInit {
 export class HttpClientImpl implements HttpClient {
   private readonly url: string;
 
-  apiKey?: string;
+  apiKey?: string | null;
 
   onUnauthorized?: () => void;
 
@@ -48,7 +48,7 @@ export class HttpClientImpl implements HttpClient {
 
     if (!response.ok) {
       if (response.status === 401 && this.onUnauthorized) {
-        return this.onUnauthorized();
+        this.onUnauthorized();
       }
 
       throw new Error(response.statusText);

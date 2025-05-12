@@ -6,12 +6,14 @@ import { useMutation } from '#composables/useMutation';
 import { ref } from 'vue';
 import { identityHttpClient } from '../services/IdentityHttpClient';
 import { PageLoader } from '#components/Page/PageLoader.vue';
-import { apiKeyService } from '../services/ApiKeyService';
 import { useRouter } from 'vue-router';
+import { apiKeyContext } from '../contexts/apiKeyContext';
 
 const router = useRouter();
 
 const apiKey = ref('');
+
+const apiKeyService = apiKeyContext.inject();
 
 const { mutate: checkApiKey, isLoading: isLoadingCheckApiKey } = useMutation({
   fn: identityHttpClient.checkApiKey,
