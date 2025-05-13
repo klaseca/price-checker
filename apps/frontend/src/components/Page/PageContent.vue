@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, useCssModule } from 'vue';
 
 const { asContainer = true } = defineProps<{ asContainer?: boolean }>();
 
-const classesValue = computed(() => ({ container: asContainer }));
+const classes = useCssModule();
+
+const classesValue = computed(() => [{ container: asContainer }, classes.content]);
 </script>
 
 <template>
-  <div class="content" :class="classesValue">
+  <div :class="classesValue">
     <slot></slot>
   </div>
 </template>
 
-<style scoped>
+<style module>
 .content {
   display: flex;
   flex-direction: column;

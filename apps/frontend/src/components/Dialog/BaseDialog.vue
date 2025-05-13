@@ -1,20 +1,24 @@
 <script setup lang="ts">
+import { useCssModule } from 'vue';
+
 const isVisible = defineModel({ default: false });
 
 const close = () => {
   isVisible.value = false;
 };
+
+const classes = useCssModule();
 </script>
 
 <template>
-  <div v-if="isVisible" class="dialog-overlay" @click.self="close">
-    <div class="dialog-container">
+  <div v-if="isVisible" :class="classes.dialogOverlay" @click.self="close">
+    <div :class="classes.dialogContainer">
       <slot></slot>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style module>
 .dialog-overlay {
   position: fixed;
   top: 0;
