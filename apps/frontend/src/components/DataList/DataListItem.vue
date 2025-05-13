@@ -13,7 +13,7 @@ const classes = useCssModule();
   <div :class="classes.item">
     <dt>{{ label }}</dt>
 
-    <dd>
+    <dd :class="classes.value">
       <slot>
         <template v-if="value != null">{{ value }}</template>
       </slot>
@@ -26,5 +26,9 @@ const classes = useCssModule();
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.value {
+  overflow-wrap: anywhere;
 }
 </style>

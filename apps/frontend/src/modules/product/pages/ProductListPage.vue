@@ -46,5 +46,6 @@ const { data, isLoading, error } = useQuery({ fn: productHttpClient.getList });
   display: flex;
   background-color: var(--color-background-mute);
   padding: 10px;
+  overflow-wrap: anywhere;
 }
 </style>
